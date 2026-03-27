@@ -1,3 +1,5 @@
+import { Minus, Square, Maximize2, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import './TitleBar.css';
 
 declare global {
@@ -11,6 +13,22 @@ declare global {
 }
 
 export function TitleBar() {
+  const [isMaximized, setIsMaximized] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const { ipcRenderer } = window.require?.('electron') || {};
+      if (!ipcRenderer) return;
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleMaximize = () => {
+    window.electronAPI.maximize();
+    setIsMaximized(!isMaximized);
+  };
+
   return (
     <div className="title-bar">
       <div className="title-bar-drag">
@@ -18,31 +36,25 @@ export function TitleBar() {
       </div>
       <div className="title-bar-controls">
         <button
-          className="title-bar-btn minimize"
+          className="title-bar-btn"
           onClick={() => window.electronAPI.minimize()}
           aria-label="Minimizar"
         >
-          <svg width="12" height="12" viewBox="0 0 12 12">
-            <rect x="2" y="5.5" width="8" height="1" fill="currentColor" />
-          </svg>
+          <Minus size={16} />
         </button>
         <button
-          className="title-bar-btn maximize"
-          onClick={() => window.electronAPI.maximize()}
-          aria-label="Maximizar"
+          className="title-bar-btn"
+          onClick={handleMaximize}
+          aria-label={isMaximized ? "Restaurar" : "Maximizar"}
         >
-          <svg width="12" height="12" viewBox="0 0 12 12">
-            <rect x="2" y="2" width="8" height="8" fill="none" stroke="currentColor" strokeWidth="1" />
-          </svg>
+          {isMaximized ? <Maximize2 size={14} /> : <Square size={14} />}
         </button>
         <button
           className="title-bar-btn close"
           onClick={() => window.electronAPI.close()}
           aria-label="Fechar"
         >
-          <svg width="12" height="12" viewBox="0 0 12 12">
-            <path d="M2 2 L10 10 M10 2 L2 10" stroke="currentColor" strokeWidth="1.2" />
-          </svg>
+          <X size={16} />
         </button>
       </div>
     </div>

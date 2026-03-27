@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 
 export interface SorteioState {
   min: number;
@@ -26,8 +26,10 @@ export function useSorteio(): UseSorteioReturn {
   const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
   const [currentNumber, setCurrentNumber] = useState<number | null>(null);
   const [isSpinning, setIsSpinning] = useState(false);
+  const spinIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const allNumbers = useMemo(() => {
+    if (min > max) return [];
     const numbers: number[] = [];
     for (let i = min; i <= max; i++) {
       numbers.push(i);
@@ -40,10 +42,22 @@ export function useSorteio(): UseSorteioReturn {
   }, [allNumbers, drawnNumbers]);
 
   const totalNumbers = allNumbers.length;
-  const canDraw = remainingNumbers.length > 0 && !isSpinning;
+  const canDraw = remainingNumbers.length > 0 && !isSpinning && min <= max;
+
+  useEffect(() => {
+    return () => {
+      if (spinIntervalRef.current) {
+        clearInterval(spinIntervalRef.current);
+      }
+    };
+  }, []);
 
   const startDraw = useCallback(() => {
-    if (remainingNumbers.length === 0) return;
+    if (remainingNumbers.length === 0 || min > max) return;
+
+    if (spinIntervalRef.current) {
+      clearInterval(spinIntervalRef.current);
+    }
 
     setIsSpinning(true);
     setCurrentNumber(null);
@@ -52,21 +66,28 @@ export function useSorteio(): UseSorteioReturn {
     const maxIterations = 50;
     const finalNumber = remainingNumbers[Math.floor(Math.random() * remainingNumbers.length)];
 
-    const spinInterval = setInterval(() => {
+    spinIntervalRef.current = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * remainingNumbers.length);
       setCurrentNumber(remainingNumbers[randomIndex]);
       iterations++;
 
       if (iterations >= maxIterations) {
-        clearInterval(spinInterval);
+        if (spinIntervalRef.current) {
+          clearInterval(spinIntervalRef.current);
+          spinIntervalRef.current = null;
+        }
         setCurrentNumber(finalNumber);
         setDrawnNumbers((prev) => [...prev, finalNumber]);
         setIsSpinning(false);
       }
     }, 80);
-  }, [remainingNumbers]);
+  }, [remainingNumbers, min, max]);
 
   const resetDraw = useCallback(() => {
+    if (spinIntervalRef.current) {
+      clearInterval(spinIntervalRef.current);
+      spinIntervalRef.current = null;
+    }
     setDrawnNumbers([]);
     setCurrentNumber(null);
     setIsSpinning(false);
@@ -79,7 +100,7 @@ export function useSorteio(): UseSorteioReturn {
       drawnNumbers,
       currentNumber,
       isSpinning,
-      isFinished: remainingNumbers.length === 0,
+      isFinished: remainingNumbers.length === 0 && min <= max,
     },
     remainingNumbers,
     setMin,

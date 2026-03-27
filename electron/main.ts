@@ -17,14 +17,16 @@ let win: BrowserWindow | null
 function createWindow() {
   win = new BrowserWindow({
     width: 600,
-    height: 750,
+    height: 700,
     minWidth: 500,
-    minHeight: 650,
+    minHeight: 600,
     resizable: true,
     frame: false,
-    icon: path.join(process.env.VITE_PUBLIC, 'logo.png'),
+    icon: path.join(process.env.VITE_PUBLIC, 'icone.ico'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
+      contextIsolation: true,
+      sandbox: true,
     },
   })
 

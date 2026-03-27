@@ -1,3 +1,4 @@
+import { RotateCcw, Shuffle } from 'lucide-react';
 import { TitleBar } from './components/TitleBar';
 import { Logo } from './components/Logo';
 import { RangeInput } from './components/RangeInput';
@@ -47,11 +48,13 @@ function App() {
             disabled={!canDraw}
             variant="primary"
           >
+            <Shuffle size={18} />
             {isSpinning ? 'Sorteando...' : 'Sortear'}
           </Button>
 
           {drawnNumbers.length > 0 && !isSpinning && (
-            <Button onClick={resetDraw} variant="secondary">
+            <Button onClick={resetDraw} disabled={false} variant="secondary">
+              <RotateCcw size={18} />
               Reiniciar
             </Button>
           )}

@@ -2,55 +2,117 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  height: 100vh;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.app::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.app::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(244, 174, 2, 0.08) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .app-header {
+  position: relative;
   text-align: center;
-  padding: 1.5rem 2rem;
+  padding: 1.25rem 1.5rem 0.5rem;
+  z-index: 1;
+  flex-shrink: 0;
 }
 
 .app-header h1 {
   margin: 0;
-  font-size: 2rem;
+  font-size: 1.375rem;
   font-weight: 700;
   color: var(--text);
+  letter-spacing: -0.02em;
 }
 
 .app-main {
+  position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 500px;
+  max-width: 420px;
   width: 100%;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1.25rem;
+  z-index: 1;
+  overflow-y: auto;
+  justify-content: flex-start;
 }
 
 .actions {
   display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .finished-message {
-  margin-top: 1.5rem;
-  padding: 1rem 1.5rem;
-  background: var(--success-light);
-  color: var(--success);
-  border-radius: 12px;
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--primary-light);
+  border-radius: 14px;
   font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--primary-dark);
   text-align: center;
+  box-shadow: var(--shadow-md);
 }
 
 .app-footer {
+  position: relative;
   text-align: center;
-  padding: 1rem 2rem;
-  border-top: 1px solid var(--border);
+  padding: 1rem 1.5rem;
+  z-index: 1;
+  flex-shrink: 0;
 }
 
 .app-footer p {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 0.6875rem;
   color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+@media (max-height: 600px) {
+  .app-header {
+    padding: 0.75rem 1rem 0.25rem;
+  }
+  
+  .app-header h1 {
+    font-size: 1.125rem;
+  }
+  
+  .app-footer {
+    padding: 0.5rem 1rem;
+  }
+  
+  .app-main {
+    padding: 0 1rem;
+  }
 }
