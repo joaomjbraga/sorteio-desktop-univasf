@@ -1,0 +1,39 @@
+.status-bar {
+  margin-top: 1.5rem;
+}
+
+.status-text {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.remaining {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.separator {
+  color: var(--border);
+}
+
+.drawn {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.progress-bar {
+  height: 8px;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  border-radius: 4px;
+  transition: width 0.5s ease-out;
+}

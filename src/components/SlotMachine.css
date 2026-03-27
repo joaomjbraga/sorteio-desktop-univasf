@@ -1,0 +1,55 @@
+.slot-machine {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  margin: 2rem auto;
+  background: linear-gradient(145deg, var(--slot-bg-start), var(--slot-bg-end));
+  border-radius: 20px;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.15),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.slot-display {
+  position: relative;
+  z-index: 2;
+  font-size: 5rem;
+  font-weight: 800;
+  color: var(--text);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.1s;
+}
+
+.slot-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 30%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  pointer-events: none;
+}
+
+.slot-machine.spinning .slot-display {
+  animation: shake 0.1s infinite;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+}
+
+.slot-machine:not(.spinning) .slot-display {
+  animation: reveal 0.5s ease-out;
+}
+
+@keyframes reveal {
+  0% { transform: scale(0.5); opacity: 0; }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
