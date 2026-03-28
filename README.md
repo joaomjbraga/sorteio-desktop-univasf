@@ -1,4 +1,5 @@
 # Sorteio UNIVASF
+<img src=".github/preview.png" width="700">
 
 Aplicativo desktop para sorteio de números, (UNIVASF).
 
