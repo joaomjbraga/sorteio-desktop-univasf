@@ -12,6 +12,7 @@ import { useSorteio } from './hooks/useSorteio';
 
 function App() {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const selectAudioRef = useRef<HTMLAudioElement>(null);
 
   const {
     state,
@@ -47,9 +48,19 @@ function App() {
     }
   }, [isFinished]);
 
+  const handleToggleConcluded = (number: number) => {
+    if (selectAudioRef.current) {
+      selectAudioRef.current.currentTime = 0;
+      selectAudioRef.current.volume = 0.5;
+      selectAudioRef.current.play().catch(() => {});
+    }
+    toggleConcluded(number);
+  };
+
   return (
     <div className="app">
-      <audio ref={audioRef} src="/song.mp3" loop />
+      <audio ref={audioRef} src="/song.mp3" loop preload="auto" />
+      <audio ref={selectAudioRef} src="/select.mp3" preload="auto" />
       <TitleBar />
       <header className="app-header">
         <Logo />
@@ -98,7 +109,7 @@ function App() {
         <DrawnNumbers 
           numbers={drawnNumbers} 
           concludedNumbers={concludedNumbers}
-          onToggleConcluded={toggleConcluded}
+          onToggleConcluded={handleToggleConcluded}
         />
       </main>
 

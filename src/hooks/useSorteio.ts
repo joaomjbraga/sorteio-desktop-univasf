@@ -24,7 +24,7 @@ export interface UseSorteioReturn {
 
 export function useSorteio(): UseSorteioReturn {
   const [min, setMin] = useState(1);
-  const [max, setMax] = useState(10);
+  const [max, setMax] = useState(48);
   const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
   const [concludedNumbers, setConcludedNumbers] = useState<number[]>([]);
   const [currentNumber, setCurrentNumber] = useState<number | null>(null);

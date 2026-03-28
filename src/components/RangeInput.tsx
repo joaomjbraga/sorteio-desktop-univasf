@@ -10,19 +10,33 @@ interface RangeInputProps {
 
 export function RangeInput({ min, max, onMinChange, onMaxChange, disabled }: RangeInputProps) {
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10) || 1;
-    onMinChange(value);
+    const value = e.target.value;
+    if (value === '') {
+      onMinChange(1);
+    } else {
+      const num = parseInt(value, 10);
+      if (!isNaN(num)) {
+        onMinChange(num);
+      }
+    }
   };
 
   const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10) || 1;
-    onMaxChange(value);
+    const value = e.target.value;
+    if (value === '') {
+      onMaxChange(1);
+    } else {
+      const num = parseInt(value, 10);
+      if (!isNaN(num)) {
+        onMaxChange(num);
+      }
+    }
   };
 
   return (
     <div className="range-input">
       <div className="input-group">
-        <label htmlFor="min-input">Número Mínimo</label>
+        <label htmlFor="min-input">De</label>
         <input
           id="min-input"
           type="number"
@@ -32,9 +46,9 @@ export function RangeInput({ min, max, onMinChange, onMaxChange, disabled }: Ran
           min={1}
         />
       </div>
-      <span className="separator">-</span>
+      <span className="separator">até</span>
       <div className="input-group">
-        <label htmlFor="max-input">Número Máximo</label>
+        <label htmlFor="max-input">Até</label>
         <input
           id="max-input"
           type="number"
