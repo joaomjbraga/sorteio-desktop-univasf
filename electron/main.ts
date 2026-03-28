@@ -27,7 +27,7 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.mjs'),
       contextIsolation: true,
       sandbox: true,
-
+      devTools: false
     },
   })
 
