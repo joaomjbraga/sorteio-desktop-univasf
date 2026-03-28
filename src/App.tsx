@@ -1,15 +1,18 @@
 import { RotateCcw, Shuffle } from 'lucide-react';
-import { TitleBar } from './components/TitleBar';
+import { useEffect, useRef } from 'react';
+import './App.css';
+import { Button } from './components/Button';
+import { DrawnNumbers } from './components/DrawnNumbers';
 import { Logo } from './components/Logo';
 import { RangeInput } from './components/RangeInput';
 import { SlotMachine } from './components/SlotMachine';
-import { Button } from './components/Button';
 import { StatusBar } from './components/StatusBar';
-import { DrawnNumbers } from './components/DrawnNumbers';
+import { TitleBar } from './components/TitleBar';
 import { useSorteio } from './hooks/useSorteio';
-import './App.css';
 
 function App() {
+  const audioRef = useRef<HTMLAudioElement>(null);
+
   const {
     state,
     remainingNumbers,
@@ -23,8 +26,28 @@ function App() {
 
   const { drawnNumbers, currentNumber, isSpinning, isFinished } = state;
 
+  useEffect(() => {
+    if (audioRef.current) {
+      if (isSpinning) {
+        audioRef.current.volume = 0.4;
+        audioRef.current.play().catch(() => {});
+      } else {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+    }
+  }, [isSpinning]);
+
+  useEffect(() => {
+    if (audioRef.current && isFinished) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  }, [isFinished]);
+
   return (
     <div className="app">
+      <audio ref={audioRef} src="/song.mp3" loop />
       <TitleBar />
       <header className="app-header">
         <Logo />
