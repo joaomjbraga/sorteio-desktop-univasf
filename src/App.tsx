@@ -16,10 +16,12 @@ function App() {
   const {
     state,
     remainingNumbers,
+    concludedNumbers,
     setMin,
     setMax,
     startDraw,
     resetDraw,
+    toggleConcluded,
     totalNumbers,
     canDraw,
   } = useSorteio();
@@ -93,7 +95,11 @@ function App() {
           <p className="finished-message">Todos os números foram sorteados!</p>
         )}
 
-        <DrawnNumbers numbers={drawnNumbers} />
+        <DrawnNumbers 
+          numbers={drawnNumbers} 
+          concludedNumbers={concludedNumbers}
+          onToggleConcluded={toggleConcluded}
+        />
       </main>
 
       <footer className="app-footer">
