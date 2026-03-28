@@ -1,11 +1,10 @@
 .logo-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 0.125rem;
 }
 
 .logo {
-  max-height: 44px;
+  max-height: 48px;
   width: auto;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.06));
 }

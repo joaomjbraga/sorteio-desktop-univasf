@@ -11,9 +11,9 @@
   content: '';
   position: absolute;
   top: -30%;
-  right: -10%;
-  width: 300px;
-  height: 300px;
+  right: 40%;
+  width: 400px;
+  height: 400px;
   background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
   pointer-events: none;
   opacity: 0.6;
@@ -37,14 +37,30 @@
 .app-main {
   position: relative;
   flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  padding: 0 1.5rem 1rem;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.left-panel {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 0.75rem;
-  z-index: 1;
-  overflow: hidden;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 1rem;
+  background: #f1f5f9;
+  border-radius: 16px;
+  border: 1px solid #cbd5e1;
 }
 
 .actions {
@@ -82,4 +98,17 @@
   font-size: 0.625rem;
   color: var(--text-secondary);
   font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .app-main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 1rem;
+    overflow-y: auto;
+  }
+  
+  .right-panel {
+    min-height: 200px;
+  }
 }

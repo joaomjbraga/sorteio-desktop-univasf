@@ -63,54 +63,59 @@ function App() {
       <audio ref={selectAudioRef} src="/select.mp3" preload="auto" />
       <TitleBar />
       <header className="app-header">
-        <Logo />
         <h1>Sorteio UNIVASF</h1>
       </header>
 
       <main className="app-main">
-        <RangeInput
-          min={state.min}
-          max={state.max}
-          onMinChange={setMin}
-          onMaxChange={setMax}
-          disabled={drawnNumbers.length > 0 || isSpinning}
-        />
+        <div className="left-panel">
+          <Logo />
+          
+          <RangeInput
+            min={state.min}
+            max={state.max}
+            onMinChange={setMin}
+            onMaxChange={setMax}
+            disabled={drawnNumbers.length > 0 || isSpinning}
+          />
 
-        <SlotMachine number={currentNumber} isSpinning={isSpinning} />
+          <SlotMachine number={currentNumber} isSpinning={isSpinning} />
 
-        <div className="actions">
-          <Button
-            onClick={startDraw}
-            disabled={!canDraw}
-            variant="primary"
-          >
-            <Shuffle size={18} />
-            {isSpinning ? 'Sorteando...' : 'Sortear'}
-          </Button>
-
-          {drawnNumbers.length > 0 && !isSpinning && (
-            <Button onClick={resetDraw} disabled={false} variant="secondary">
-              <RotateCcw size={18} />
-              Reiniciar
+          <div className="actions">
+            <Button
+              onClick={startDraw}
+              disabled={!canDraw}
+              variant="primary"
+            >
+              <Shuffle size={18} />
+              {isSpinning ? 'Sorteando...' : 'Sortear'}
             </Button>
+
+            {drawnNumbers.length > 0 && !isSpinning && (
+              <Button onClick={resetDraw} disabled={false} variant="secondary">
+                <RotateCcw size={18} />
+                Reiniciar
+              </Button>
+            )}
+          </div>
+
+          <StatusBar
+            remaining={remainingNumbers.length}
+            total={totalNumbers}
+            drawn={drawnNumbers.length}
+          />
+
+          {isFinished && !isSpinning && (
+            <p className="finished-message">Todos os números foram sorteados!</p>
           )}
         </div>
 
-        <StatusBar
-          remaining={remainingNumbers.length}
-          total={totalNumbers}
-          drawn={drawnNumbers.length}
-        />
-
-        {isFinished && !isSpinning && (
-          <p className="finished-message">Todos os números foram sorteados!</p>
-        )}
-
-        <DrawnNumbers 
-          numbers={drawnNumbers} 
-          concludedNumbers={concludedNumbers}
-          onToggleConcluded={handleToggleConcluded}
-        />
+        <div className="right-panel">
+          <DrawnNumbers 
+            numbers={drawnNumbers} 
+            concludedNumbers={concludedNumbers}
+            onToggleConcluded={handleToggleConcluded}
+          />
+        </div>
       </main>
 
       <footer className="app-footer">

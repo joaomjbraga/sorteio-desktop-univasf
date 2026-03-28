@@ -1,7 +1,8 @@
+import { DrawnItem } from '../hooks/useSorteio';
 import './DrawnNumbers.css';
 
 interface DrawnNumbersProps {
-  numbers: number[];
+  numbers: DrawnItem[];
   concludedNumbers: number[];
   onToggleConcluded: (number: number) => void;
 }
@@ -11,19 +12,19 @@ export function DrawnNumbers({ numbers, concludedNumbers, onToggleConcluded }: D
 
   return (
     <div className="drawn-numbers">
-      <h3>Números Sorteados ({numbers.length})</h3>
+      <h3>Números Sorteados</h3>
       <div className="numbers-list">
-        {numbers.map((num, index) => {
-          const isConcluded = concludedNumbers.includes(num);
+        {numbers.map((item) => {
+          const isConcluded = concludedNumbers.includes(item.number);
           return (
-            <span
-              key={num}
-              className={`drawn-number ${isConcluded ? 'concluded' : ''}`}
-              style={{ animationDelay: `${index * 30}ms` }}
-              onClick={() => onToggleConcluded(num)}
+            <div
+              key={item.order}
+              className={`drawn-item ${isConcluded ? 'concluded' : ''}`}
+              onClick={() => onToggleConcluded(item.number)}
             >
-              {num}
-            </span>
+              <span className="order">{item.order}°</span>
+              <span className="number">{item.number}</span>
+            </div>
           );
         })}
       </div>

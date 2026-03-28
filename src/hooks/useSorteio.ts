@@ -1,9 +1,14 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 
+export interface DrawnItem {
+  number: number;
+  order: number;
+}
+
 export interface SorteioState {
   min: number;
   max: number;
-  drawnNumbers: number[];
+  drawnNumbers: DrawnItem[];
   currentNumber: number | null;
   isSpinning: boolean;
   isFinished: boolean;
@@ -25,7 +30,7 @@ export interface UseSorteioReturn {
 export function useSorteio(): UseSorteioReturn {
   const [min, setMin] = useState(1);
   const [max, setMax] = useState(48);
-  const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
+  const [drawnNumbers, setDrawnNumbers] = useState<DrawnItem[]>([]);
   const [concludedNumbers, setConcludedNumbers] = useState<number[]>([]);
   const [currentNumber, setCurrentNumber] = useState<number | null>(null);
   const [isSpinning, setIsSpinning] = useState(false);
@@ -41,9 +46,11 @@ export function useSorteio(): UseSorteioReturn {
     return numbers;
   }, [min, max]);
 
+  const drawnNumbersSet = useMemo(() => drawnNumbers.map((item) => item.number), [drawnNumbers]);
+
   const remainingNumbers = useMemo(() => {
-    return allNumbers.filter((n) => !drawnNumbers.includes(n));
-  }, [allNumbers, drawnNumbers]);
+    return allNumbers.filter((n) => !drawnNumbersSet.includes(n));
+  }, [allNumbers, drawnNumbersSet]);
 
   const totalNumbers = allNumbers.length;
   const canDraw = remainingNumbers.length > 0 && !isSpinning && min <= max;
@@ -91,7 +98,13 @@ export function useSorteio(): UseSorteioReturn {
           clearInterval(spinIntervalRef.current);
           spinIntervalRef.current = null;
         }
-        setDrawnNumbers([...numbersToDrawRef.current]);
+        
+        const result: DrawnItem[] = numbersToDrawRef.current.map((num, i) => ({
+          number: num,
+          order: i + 1,
+        }));
+        
+        setDrawnNumbers(result);
         setCurrentNumber(numbersToDrawRef.current[numbersToDrawRef.current.length - 1]);
         setIsSpinning(false);
         numbersToDrawRef.current = [];
