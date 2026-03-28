@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, session } from 'electron'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -27,6 +27,7 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.mjs'),
       contextIsolation: true,
       sandbox: true,
+
     },
   })
 
@@ -66,4 +67,16 @@ app.on('activate', () => {
   }
 })
 
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        'Content-Security-Policy': [
+          "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:; media-src 'self'"
+        ]
+      }
+    })
+  })
+  createWindow()
+})
