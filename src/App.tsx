@@ -1,6 +1,8 @@
 import { RotateCcw, Shuffle } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import './App.css';
+import songAudio from './assets/song.mp3';
+import selectAudio from './assets/select.mp3';
 import { Button } from './components/Button';
 import { DrawnNumbers } from './components/DrawnNumbers';
 import { Logo } from './components/Logo';
@@ -59,8 +61,8 @@ function App() {
 
   return (
     <div className="app">
-      <audio ref={audioRef} src="/song.mp3" loop preload="auto" />
-      <audio ref={selectAudioRef} src="/select.mp3" preload="auto" />
+      <audio ref={audioRef} src={songAudio} loop preload="auto" />
+      <audio ref={selectAudioRef} src={selectAudio} preload="auto" />
       <TitleBar />
       <header className="app-header">
         <h1>Sorteio UNIVASF</h1>

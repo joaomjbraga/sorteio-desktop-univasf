@@ -11,7 +11,7 @@
     "dist",
     "dist-electron"
   ],
-  "icon": "public/icone.ico",
+  "icon": "dist/icone.ico",
   "mac": {
     "target": [
       "dmg"
@@ -36,6 +36,7 @@
     "deleteAppDataOnUninstall": false
   },
   "linux": {
+    "icon": "dist/icone.png",
     "target": [
       "AppImage"
     ],
