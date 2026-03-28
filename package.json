@@ -4,6 +4,7 @@
     "name": "João M J Braga",
     "email": "joomdeveloper.app@gmail.com"
   },
+  "description": "Aplicativo desktop para sorteio de números (UNIVASF)",
   "private": true,
   "version": "0.0.1",
   "type": "module",
