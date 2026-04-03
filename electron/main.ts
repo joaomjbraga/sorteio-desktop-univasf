@@ -1,8 +1,12 @@
 import { app, BrowserWindow, ipcMain, session } from 'electron'
+import os from 'node:os'
 import path from 'node:path'
+
 import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+
 
 process.env.APP_ROOT = path.join(__dirname, '..')
 
@@ -11,6 +15,9 @@ export const MAIN_DIST = path.join(process.env.APP_ROOT, 'dist-electron')
 export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist')
 
 process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 'public') : RENDERER_DIST
+
+const iconName = os.platform() === 'win32' ? 'icone.ico' : 'icone.png'
+const iconPath = path.join(process.env.APP_ROOT!, 'public', iconName)
 
 let win: BrowserWindow | null
 
@@ -22,7 +29,7 @@ function createWindow() {
     minHeight: 500,
     resizable: true,
     frame: false,
-    icon: path.join(process.env.VITE_PUBLIC, 'icone.ico'),
+    icon: iconPath,
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
       contextIsolation: true,
