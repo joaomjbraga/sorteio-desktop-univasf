@@ -3,37 +3,30 @@
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
   "appId": "br.edu.univasf.sorteio",
   "asar": true,
+  "extraMetadata": {
+  "author": "João M J Braga",
+  "description": "Sistema de sorteio da UNIVASF"
+  },
   "productName": "Sorteio UNIVASF",
   "directories": {
     "output": "release/${version}"
   },
   "files": [
-    "dist",
-    "dist-electron"
+    "dist/**",
+    "dist-electron/**",
+    "!**/*.map"
   ],
-  "icon": "dist/icone.ico",
-  "mac": {
-    "target": [
-      "dmg"
-    ],
-    "artifactName": "${productName}-Mac-${version}-Installer.${ext}"
-  },
   "win": {
+    "icon": "dist/icone.ico",
     "target": [
       {
-        "target": "nsis",
+        "target": "portable",
         "arch": [
           "x64"
         ]
       }
     ],
-    "artifactName": "${productName}-Windows-${version}-Setup.${ext}"
-  },
-  "nsis": {
-    "oneClick": false,
-    "perMachine": false,
-    "allowToChangeInstallationDirectory": true,
-    "deleteAppDataOnUninstall": false
+    "artifactName": "${productName}-Windows-${version}-portable.${ext}"
   },
   "linux": {
     "icon": "dist/icone.png",

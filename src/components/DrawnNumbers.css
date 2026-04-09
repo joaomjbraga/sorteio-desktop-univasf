@@ -111,13 +111,3 @@
   text-decoration: line-through;
   opacity: 0.8;
 }
-
-.right-panel {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  padding: 1rem;
-  background: #f1f5f9;
-  border-radius: 16px;
-  border: 1px solid #cbd5e1;
-}

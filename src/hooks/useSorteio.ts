@@ -46,10 +46,10 @@ export function useSorteio(): UseSorteioReturn {
     return numbers;
   }, [min, max]);
 
-  const drawnNumbersSet = useMemo(() => drawnNumbers.map((item) => item.number), [drawnNumbers]);
+  const drawnNumbersSet = useMemo(() => new Set(drawnNumbers.map((item) => item.number)), [drawnNumbers]);
 
   const remainingNumbers = useMemo(() => {
-    return allNumbers.filter((n) => !drawnNumbersSet.includes(n));
+    return allNumbers.filter((n) => !drawnNumbersSet.has(n));
   }, [allNumbers, drawnNumbersSet]);
 
   const totalNumbers = allNumbers.length;

@@ -50,6 +50,15 @@ function App() {
     }
   }, [isFinished]);
 
+  useEffect(() => {
+    const audio = audioRef.current;
+    const selectAudio = selectAudioRef.current;
+    return () => {
+      audio?.pause();
+      selectAudio?.pause();
+    };
+  }, []);
+
   const handleToggleConcluded = (number: number) => {
     if (selectAudioRef.current) {
       selectAudioRef.current.currentTime = 0;

@@ -8,6 +8,7 @@ declare global {
       close: () => void;
       maximize: () => void;
       minimize: () => void;
+      onMaximizeChange: (callback: (isMaximized: boolean) => void) => () => void;
     };
   }
 }
@@ -16,17 +17,14 @@ export function TitleBar() {
   const [isMaximized, setIsMaximized] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      const { ipcRenderer } = window.require?.('electron') || {};
-      if (!ipcRenderer) return;
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    const unsubscribe = window.electronAPI.onMaximizeChange((maximized) => {
+      setIsMaximized(maximized);
+    });
+    return unsubscribe;
   }, []);
 
   const handleMaximize = () => {
     window.electronAPI.maximize();
-    setIsMaximized(!isMaximized);
   };
 
   return (

@@ -15,7 +15,7 @@ export function RangeInput({ min, max, onMinChange, onMaxChange, disabled }: Ran
       onMinChange(1);
     } else {
       const num = parseInt(value, 10);
-      if (!isNaN(num)) {
+      if (!isNaN(num) && num >= 1) {
         onMinChange(num);
       }
     }
@@ -27,11 +27,13 @@ export function RangeInput({ min, max, onMinChange, onMaxChange, disabled }: Ran
       onMaxChange(1);
     } else {
       const num = parseInt(value, 10);
-      if (!isNaN(num)) {
+      if (!isNaN(num) && num >= 1) {
         onMaxChange(num);
       }
     }
   };
+
+  const isInvalid = min > max;
 
   return (
     <div className="range-input">
@@ -58,6 +60,9 @@ export function RangeInput({ min, max, onMinChange, onMaxChange, disabled }: Ran
           min={1}
         />
       </div>
+      {isInvalid && (
+        <span className="validation-error">Min deve ser menor que Max</span>
+      )}
     </div>
   );
 }

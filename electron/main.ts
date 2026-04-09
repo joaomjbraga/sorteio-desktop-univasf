@@ -43,6 +43,14 @@ function createWindow() {
   } else {
     win.loadFile(path.join(RENDERER_DIST, 'index.html'))
   }
+
+  win.on('maximize', () => {
+    win?.webContents.send('maximize-change', true)
+  })
+
+  win.on('unmaximize', () => {
+    win?.webContents.send('maximize-change', false)
+  })
 }
 
 ipcMain.on('window-close', () => {

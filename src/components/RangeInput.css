@@ -55,3 +55,12 @@
   color: var(--text-secondary);
   padding-bottom: 0.625rem;
 }
+
+.validation-error {
+  width: 100%;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #dc2626;
+  font-weight: 500;
+  margin-top: 0.25rem;
+}
