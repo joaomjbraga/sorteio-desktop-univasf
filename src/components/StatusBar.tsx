@@ -7,7 +7,7 @@ interface StatusBarProps {
 }
 
 export function StatusBar({ remaining, total, drawn }: StatusBarProps) {
-  const percentage = total > 0 ? (drawn / total) * 100 : 0;
+  const percentage = total > 0 && isFinite(drawn / total) ? (drawn / total) * 100 : 0;
 
   return (
     <div className="status-bar">

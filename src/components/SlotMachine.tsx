@@ -7,7 +7,12 @@ interface SlotMachineProps {
 
 export function SlotMachine({ number, isSpinning }: SlotMachineProps) {
   return (
-    <div className={`slot-machine ${isSpinning ? 'spinning' : ''}`}>
+    <div
+      className={`slot-machine ${isSpinning ? 'spinning' : ''}`}
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
       <div className="slot-display">
         {number !== null ? number : '-'}
       </div>

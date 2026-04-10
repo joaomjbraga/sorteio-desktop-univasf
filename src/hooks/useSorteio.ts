@@ -83,8 +83,6 @@ export function useSorteio(): UseSorteioReturn {
     
     setIsSpinning(true);
     setCurrentNumber(null);
-    setDrawnNumbers([]);
-    setConcludedNumbers([]);
 
     let index = 0;
     const total = numbersToDrawRef.current.length;

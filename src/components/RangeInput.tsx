@@ -15,7 +15,7 @@ export function RangeInput({ min, max, onMinChange, onMaxChange, disabled }: Ran
       onMinChange(1);
     } else {
       const num = parseInt(value, 10);
-      if (!isNaN(num) && num >= 1) {
+      if (!isNaN(num) && num >= 1 && num <= 10000) {
         onMinChange(num);
       }
     }
@@ -27,13 +27,13 @@ export function RangeInput({ min, max, onMinChange, onMaxChange, disabled }: Ran
       onMaxChange(1);
     } else {
       const num = parseInt(value, 10);
-      if (!isNaN(num) && num >= 1) {
+      if (!isNaN(num) && num >= 1 && num <= 10000) {
         onMaxChange(num);
       }
     }
   };
 
-  const isInvalid = min > max;
+  const isInvalid = min > max || min > 10000 || max > 10000;
 
   return (
     <div className="range-input">
@@ -46,6 +46,7 @@ export function RangeInput({ min, max, onMinChange, onMaxChange, disabled }: Ran
           onChange={handleMinChange}
           disabled={disabled}
           min={1}
+          max={10000}
         />
       </div>
       <span className="separator">até</span>
@@ -58,6 +59,7 @@ export function RangeInput({ min, max, onMinChange, onMaxChange, disabled }: Ran
           onChange={handleMaxChange}
           disabled={disabled}
           min={1}
+          max={10000}
         />
       </div>
       {isInvalid && (

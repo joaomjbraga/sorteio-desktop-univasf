@@ -53,6 +53,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
   animation: slideIn 0.3s ease-out;
+  will-change: transform;
 }
 
 @keyframes slideIn {

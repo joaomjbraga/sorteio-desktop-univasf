@@ -6,8 +6,6 @@ import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-
-
 process.env.APP_ROOT = path.join(__dirname, '..')
 
 export const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
@@ -16,12 +14,16 @@ export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist')
 
 process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 'public') : RENDERER_DIST
 
-const iconName = os.platform() === 'win32' ? 'icone.ico' : 'icone.png'
-const iconPath = path.join(process.env.APP_ROOT!, 'public', iconName)
+const iconPath = path.join(process.env.VITE_PUBLIC!, os.platform() === 'win32' ? 'icone.ico' : 'icone.png')
 
 let win: BrowserWindow | null
 
 function createWindow() {
+  if (win) {
+    win.focus()
+    return
+  }
+
   win = new BrowserWindow({
     width: 670,
     height: 500,
@@ -44,12 +46,15 @@ function createWindow() {
     win.loadFile(path.join(RENDERER_DIST, 'index.html'))
   }
 
-  win.on('maximize', () => {
-    win?.webContents.send('maximize-change', true)
-  })
+  const handleMaximizeChange = (isMaximized: boolean) => {
+    win?.webContents.send('maximize-change', isMaximized)
+  }
 
-  win.on('unmaximize', () => {
-    win?.webContents.send('maximize-change', false)
+  win.on('maximize', () => handleMaximizeChange(true))
+  win.on('unmaximize', () => handleMaximizeChange(false))
+
+  win.on('closed', () => {
+    win = null
   })
 }
 
@@ -88,7 +93,7 @@ app.whenReady().then(() => {
       responseHeaders: {
         ...details.responseHeaders,
         'Content-Security-Policy': [
-          "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:; media-src 'self'"
+          "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:; media-src 'self' file:"
         ]
       }
     })
