@@ -18,7 +18,6 @@ export interface UseSorteioReturn {
   state: SorteioState;
   remainingNumbers: number[];
   concludedNumbers: number[];
-  setMin: (value: number) => void;
   setMax: (value: number) => void;
   startDraw: () => void;
   resetDraw: () => void;
@@ -28,7 +27,7 @@ export interface UseSorteioReturn {
 }
 
 export function useSorteio(): UseSorteioReturn {
-  const [min, setMin] = useState(1);
+  const [min] = useState(2);
   const [max, setMax] = useState(48);
   const [drawnNumbers, setDrawnNumbers] = useState<DrawnItem[]>([]);
   const [concludedNumbers, setConcludedNumbers] = useState<number[]>([]);
@@ -133,7 +132,6 @@ export function useSorteio(): UseSorteioReturn {
     },
     remainingNumbers,
     concludedNumbers,
-    setMin,
     setMax,
     startDraw,
     resetDraw,

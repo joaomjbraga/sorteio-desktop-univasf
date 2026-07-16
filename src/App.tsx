@@ -1,4 +1,4 @@
-import { Minus, Square, Maximize2, X, Shuffle, RotateCcw, Hash, ChevronRight, Trophy } from 'lucide-react'
+import { Minus, Square, Maximize2, X, Shuffle, RotateCcw, Hash, ChevronRight, Trophy, Settings } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import songAudio from './assets/song.mp3'
@@ -46,17 +46,57 @@ function TitleBar() {
   )
 }
 
+function RangeModal({ open, onClose, value, onChange, disabled }: {
+  open: boolean
+  onClose: () => void
+  value: number
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  disabled: boolean
+}) {
+  if (!open) return null
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <span className="modal-title">Configurar Sorteio</span>
+          <button className="modal-close" onClick={onClose} aria-label="Fechar">
+            <X size={18} />
+          </button>
+        </div>
+        <div className="modal-body">
+          <span className="modal-label">Quantidade de números</span>
+          <input
+            type="number"
+            className="range-input"
+            value={value || ''}
+            onChange={onChange}
+            disabled={disabled}
+            min={2}
+            max={10000}
+            placeholder="2"
+          />
+          {value > 0 && <span className="modal-hint">Números de 2 até {value}</span>}
+        </div>
+        <div className="modal-footer">
+          <button className="btn btn-secondary" onClick={onClose}>Fechar</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function App() {
   const audioRef = useRef<HTMLAudioElement>(null)
   const selectAudioRef = useRef<HTMLAudioElement>(null)
   const [slotKey, setSlotKey] = useState(0)
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [isRangeOpen, setIsRangeOpen] = useState(false)
 
   const {
     state,
     remainingNumbers,
     concludedNumbers,
-    setMin,
     setMax,
     startDraw,
     resetDraw,
@@ -65,7 +105,7 @@ function App() {
     canDraw,
   } = useSorteio()
 
-  const { drawnNumbers, currentNumber, isSpinning, isFinished, min, max } = state
+  const { drawnNumbers, currentNumber, isSpinning, isFinished, max } = state
   const handleReset = () => {
     setCurrentIndex(0)
     resetDraw()
@@ -114,22 +154,14 @@ function App() {
     toggleConcluded(num)
   }
 
-  const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const v = e.target.value
-    if (v === '') { setMin(1); return }
-    const n = parseInt(v, 10)
-    if (!isNaN(n) && n >= 1 && n <= 10000) setMin(n)
-  }
-
   const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const v = e.target.value
-    if (v === '') { setMax(1); return }
+    if (v === '') { setMax(0); return }
     const n = parseInt(v, 10)
-    if (!isNaN(n) && n >= 1 && n <= 10000) setMax(n)
+    if (!isNaN(n) && n >= 2 && n <= 10000) setMax(n)
   }
 
   const percentage = totalNumbers > 0 ? (drawnNumbers.length / totalNumbers) * 100 : 0
-  const isInvalid = min > max
 
   return (
     <div className="app">
@@ -141,30 +173,14 @@ function App() {
       <main className="app-body">
         <div className="left-panel">
           <div className="controls-top">
-            <div className="range-group">
-              <span className="range-label">De</span>
-              <input
-                type="number"
-                className="range-input"
-                value={min}
-                onChange={handleMinChange}
-                disabled={drawnNumbers.length > 0 || isSpinning}
-                min={1}
-                max={10000}
-              />
-              <span className="range-separator">até</span>
-              <input
-                type="number"
-                className="range-input"
-                value={max}
-                onChange={handleMaxChange}
-                disabled={drawnNumbers.length > 0 || isSpinning}
-                min={1}
-                max={10000}
-              />
-            </div>
-
-            {isInvalid && <span className="range-error">Min deve ser menor que Max</span>}
+            <button
+              className="range-trigger"
+              onClick={() => setIsRangeOpen(true)}
+              disabled={drawnNumbers.length > 0 || isSpinning}
+            >
+              <Settings size={16} />
+              Configurar quantidade de números
+            </button>
           </div>
 
           <div className="slot-area">
@@ -218,7 +234,7 @@ function App() {
           </div>
 
           <div className="actions">
-            <button className="btn btn-primary" onClick={startDraw} disabled={!canDraw}>
+            <button className="btn btn-primary" onClick={() => { setIsRangeOpen(false); startDraw() }} disabled={!canDraw}>
               <Shuffle size={18} />
               {isSpinning ? 'Sorteando...' : 'Sortear'}
             </button>
@@ -281,6 +297,14 @@ function App() {
       <footer className="app-footer">
         <p>UNIVASF — Universidade Federal do Vale do São Francisco</p>
       </footer>
+
+      <RangeModal
+        open={isRangeOpen}
+        onClose={() => setIsRangeOpen(false)}
+        value={max}
+        onChange={handleMaxChange}
+        disabled={drawnNumbers.length > 0 || isSpinning}
+      />
     </div>
   )
 }
