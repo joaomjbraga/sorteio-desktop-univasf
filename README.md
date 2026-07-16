@@ -1,4 +1,5 @@
 # Sorteio UNIVASF
+
 <img src=".github/preview.png" width="700">
 
 Aplicativo desktop para sorteio de números (UNIVASF).
@@ -27,14 +28,14 @@ Desenvolvida inicialmente para atender a uma demanda acadêmica da turma de Hist
 
 ## 🖥️ Tecnologias
 
-| Tecnologia | Versão | Propósito |
-|------------|--------|-----------|
-| Electron | 30.0.1 | Framework desktop |
-| React | 18.2 | Biblioteca UI |
-| TypeScript | 5.2 | Linguagem tipada |
-| Vite | 5.1 | Bundler |
-| Lucide React | 1.7 | Ícones |
-| electron-builder | 24.13 | Empacotamento |
+| Tecnologia       | Versão | Propósito         |
+| ---------------- | ------ | ----------------- |
+| Electron         | 30.0.1 | Framework desktop |
+| React            | 18.2   | Biblioteca UI     |
+| TypeScript       | 5.2    | Linguagem tipada  |
+| Vite             | 5.1    | Bundler           |
+| Lucide React     | 1.7    | Ícones            |
+| electron-builder | 24.13  | Empacotamento     |
 
 ## 📁 Estrutura do Projeto
 
@@ -81,19 +82,14 @@ sorteio/
 
 ## 📝 Estados do Sorteio
 
-| Estado | Descrição |
-|--------|-----------|
-| `max` | Quantidade máxima de números para sortear |
-| `drawnNumbers` | Array de objetos `{number, order}` com números sorteados |
-| `currentNumber` | Número sendo exibido na slot machine |
-| `isSpinning` | Se está em animação |
-| `isFinished` | Se todos os números foram sorteados |
+| Estado          | Descrição                                                |
+| --------------- | -------------------------------------------------------- |
+| `max`           | Quantidade máxima de números para sortear                |
+| `drawnNumbers`  | Array de objetos `{number, order}` com números sorteados |
+| `currentNumber` | Número sendo exibido na slot machine                     |
+| `isSpinning`    | Se está em animação                                      |
+| `isFinished`    | Se todos os números foram sorteados                      |
 
 ## 📄 Licença
 
 Este projeto é de código aberto e licença MIT.
-
-## 👨‍💻 Autor
-
-João M J Braga
-- Email: joomdeveloper.app@gmail.com
