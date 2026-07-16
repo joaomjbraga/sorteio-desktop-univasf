@@ -95,7 +95,6 @@ function App() {
 
   const {
     state,
-    concludedNumbers,
     setMax,
     startDraw,
     resetDraw,
@@ -155,7 +154,7 @@ function App() {
 
   const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const v = e.target.value
-    if (v === '') { setMax(0); return }
+    if (v === '') return
     const n = parseInt(v, 10)
     if (!isNaN(n) && n >= 2 && n <= 10000) setMax(n)
   }
@@ -243,7 +242,7 @@ function App() {
             )}
           </div>
 
-          {isFinished && !isSpinning && drawnNumbers.length > 0 && (
+          {isFinished && !isSpinning && drawnNumbers.length > 0 && !isAtEnd && (
             <div className="finished-msg">Todos os números foram sorteados!</div>
           )}
         </div>

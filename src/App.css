@@ -94,29 +94,6 @@
   justify-content: center;
 }
 
-.logo-img {
-  height: 52px;
-  width: auto;
-}
-
-.range-group {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  background: #f8f9fb;
-  border: 1px solid #e9ecef;
-  border-radius: 0.75rem;
-  padding: 0.5rem 1rem;
-}
-
-.range-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #868e96;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
 .range-input {
   width: 72px;
   height: 36px;
@@ -140,18 +117,6 @@
 .range-input:disabled {
   opacity: 0.4;
   cursor: not-allowed;
-}
-
-.range-separator {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: #adb5bd;
-}
-
-.range-error {
-  font-size: 0.75rem;
-  color: #e03131;
-  font-weight: 500;
 }
 
 /* --- Slot Machine --- */
@@ -186,14 +151,6 @@
   box-shadow:
     0 20px 60px rgba(212, 148, 10, 0.12),
     0 4px 12px rgba(212, 148, 10, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-}
-
-.slot-machine.is-finished {
-  border-color: #2f9e44;
-  box-shadow:
-    0 20px 60px rgba(47, 158, 68, 0.1),
-    0 4px 12px rgba(47, 158, 68, 0.05),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
@@ -233,10 +190,6 @@
 
 .slot-status.spin {
   color: #d4940a;
-}
-
-.slot-status.done {
-  color: #2f9e44;
 }
 
 /* --- Number Display (navigation after draw) --- */
@@ -421,47 +374,6 @@
 
 .btn-secondary:active:not(:disabled) {
   background: #e9ecef;
-}
-
-/* --- Status Bar --- */
-.status-bar {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-  max-width: 340px;
-}
-
-.status-text {
-  display: flex;
-  gap: 0.5rem;
-  font-size: 0.8125rem;
-  white-space: nowrap;
-}
-
-.status-remaining {
-  font-weight: 700;
-  color: #d4940a;
-}
-
-.status-drawn {
-  font-weight: 500;
-  color: #868e96;
-}
-
-.progress-track {
-  flex: 1;
-  height: 6px;
-  background: #e9ecef;
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #d4940a, #c18909);
-  border-radius: 3px;
-  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* --- Finished Message --- */
