@@ -1,4 +1,4 @@
-import { Minus, Square, Maximize2, X, Shuffle, RotateCcw, Hash, ChevronRight, Trophy, Settings } from 'lucide-react'
+import { Minus, Square, Maximize2, X, Shuffle, RotateCcw, Hash, ChevronRight, Settings, CheckCircle } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import songAudio from './assets/song.mp3'
@@ -95,7 +95,6 @@ function App() {
 
   const {
     state,
-    remainingNumbers,
     concludedNumbers,
     setMax,
     startDraw,
@@ -161,8 +160,6 @@ function App() {
     if (!isNaN(n) && n >= 2 && n <= 10000) setMax(n)
   }
 
-  const percentage = totalNumbers > 0 ? (drawnNumbers.length / totalNumbers) * 100 : 0
-
   return (
     <div className="app">
       <audio ref={audioRef} src={songAudio} loop preload="auto" />
@@ -196,7 +193,7 @@ function App() {
             ) : isFinished && drawnNumbers.length > 0 ? (
               isAtEnd ? (
                 <div className="finish-screen">
-                  <div className="finish-icon"><Trophy size={64} strokeWidth={1.5} /></div>
+                  <div className="finish-icon"><CheckCircle size={64} strokeWidth={1.5} /></div>
                   <span className="finish-title">Fim do Sorteio</span>
                   <span className="finish-sub">Todos os números foram apresentados</span>
                 </div>
@@ -246,16 +243,6 @@ function App() {
             )}
           </div>
 
-          <div className="status-bar">
-            <div className="status-text">
-              <span className="status-remaining">{remainingNumbers.length} restantes</span>
-              <span className="status-drawn">| {drawnNumbers.length} sorteados</span>
-            </div>
-            <div className="progress-track">
-              <div className="progress-fill" style={{ width: `${percentage}%` }} />
-            </div>
-          </div>
-
           {isFinished && !isSpinning && drawnNumbers.length > 0 && (
             <div className="finished-msg">Todos os números foram sorteados!</div>
           )}
@@ -265,7 +252,7 @@ function App() {
           <div className="panel-header">
             <span className="panel-title">Números Sorteados</span>
             {drawnNumbers.length > 0 && (
-              <span className="panel-count">{drawnNumbers.length} de {totalNumbers}</span>
+              <span className="panel-count">{isFinished && drawnNumbers.length > 0 ? currentIndex + 1 : drawnNumbers.length} de {totalNumbers}</span>
             )}
           </div>
 
