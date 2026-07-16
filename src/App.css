@@ -2,113 +2,641 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: var(--bg);
-  position: relative;
+  background: #f8f9fb;
   overflow: hidden;
 }
 
-.app::before {
-  content: '';
-  position: absolute;
-  top: -30%;
-  right: 40%;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
-  pointer-events: none;
-  opacity: 0.6;
-}
-
-.app-header {
-  position: relative;
-  text-align: center;
-  padding: 0.5rem 1rem;
-  z-index: 1;
+/* --- Title Bar --- */
+.titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  user-select: none;
   flex-shrink: 0;
-}
-
-.app-header h1 {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.app-main {
+  background: #ffffff;
+  border-bottom: 1px solid #e9ecef;
   position: relative;
+  z-index: 50;
+}
+
+.titlebar-drag {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 0.75rem;
+  -webkit-app-region: drag;
+}
+
+.titlebar-logo {
+  height: 26px;
+  width: auto;
+}
+
+.titlebar-controls {
+  display: flex;
+  height: 100%;
+  -webkit-app-region: no-drag;
+}
+
+.titlebar-btn {
+  width: 44px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: #868e96;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.titlebar-btn:hover {
+  background: #f1f3f5;
+  color: #495057;
+}
+
+.titlebar-btn.close:hover {
+  background: #ffe3e3;
+  color: #e03131;
+}
+
+/* --- Main Layout --- */
+.app-body {
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  padding: 0 1.5rem 1rem;
-  z-index: 1;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 0;
+  min-height: 0;
   overflow: hidden;
 }
 
+/* --- Left Panel: Controls + Slot Machine --- */
 .left-panel {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 2rem;
+  padding: 2rem;
+  background: #ffffff;
+  border-right: 1px solid #e9ecef;
 }
 
-.right-panel {
+/* --- Top Controls Row --- */
+.controls-top {
   display: flex;
-  flex-direction: column;
-  min-height: 0;
-  padding: 1rem;
-  background: #f1f5f9;
-  border-radius: 16px;
-  border: 1px solid #cbd5e1;
-}
-
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+  align-items: center;
+  gap: 1.5rem;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.finished-message {
-  margin-top: 0.75rem;
-  padding: 0.75rem 1rem;
-  background: var(--bg-card);
-  border: 1px solid var(--primary-light);
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 0.8125rem;
-  color: var(--primary-dark);
-  text-align: center;
-  box-shadow: var(--shadow-md);
+.logo-img {
+  height: 52px;
+  width: auto;
 }
 
-.app-footer {
+.range-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f8f9fb;
+  border: 1px solid #e9ecef;
+  border-radius: 0.75rem;
+  padding: 0.5rem 1rem;
+}
+
+.range-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #868e96;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.range-input {
+  width: 72px;
+  height: 36px;
+  border: 1.5px solid #dee2e6;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+  color: #1a1d23;
+  background: #ffffff;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.range-input:focus {
+  border-color: #d4940a;
+  box-shadow: 0 0 0 3px rgba(212, 148, 10, 0.15);
+}
+
+.range-input:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.range-separator {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #adb5bd;
+}
+
+.range-error {
+  font-size: 0.75rem;
+  color: #e03131;
+  font-weight: 500;
+}
+
+/* --- Slot Machine --- */
+.slot-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.slot-machine {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(180px, 22vw, 320px);
+  height: clamp(180px, 22vw, 320px);
+  background: #ffffff;
+  border-radius: 2rem;
+  border: 3px solid #e9ecef;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.06),
+    0 4px 12px rgba(0, 0, 0, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.slot-machine.is-spinning {
+  border-color: #d4940a;
+  box-shadow:
+    0 20px 60px rgba(212, 148, 10, 0.12),
+    0 4px 12px rgba(212, 148, 10, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.slot-machine.is-finished {
+  border-color: #2f9e44;
+  box-shadow:
+    0 20px 60px rgba(47, 158, 68, 0.1),
+    0 4px 12px rgba(47, 158, 68, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.slot-number {
+  position: relative;
+  z-index: 2;
+  font-size: clamp(4rem, 10vw, 8rem);
+  font-weight: 900;
+  color: #d4940a;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slot-reveal {
+  animation: slotReveal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.slot-machine.is-spinning .slot-number {
+  animation: slotShake 0.12s infinite;
+}
+
+.slot-placeholder {
+  font-size: clamp(3rem, 8vw, 6rem);
+  color: #dee2e6;
+}
+
+.slot-status {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #868e96;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.slot-status.spin {
+  color: #d4940a;
+}
+
+.slot-status.done {
+  color: #2f9e44;
+}
+
+/* --- Number Display (navigation after draw) --- */
+.number-display {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.display-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: clamp(180px, 22vw, 320px);
+  height: clamp(180px, 22vw, 320px);
+  background: #ffffff;
+  border-radius: 2rem;
+  border: 3px solid #d4940a;
+  box-shadow:
+    0 20px 60px rgba(212, 148, 10, 0.1),
+    0 4px 12px rgba(212, 148, 10, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  flex-shrink: 0;
+  animation: displayReveal 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.display-order {
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: #ffffff;
+  background: #d4940a;
+  padding: 0.25rem 1rem;
+  border-radius: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.75rem;
+}
+
+.display-number {
+  font-size: clamp(5rem, 12vw, 10rem);
+  font-weight: 900;
+  color: #1a1d23;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.display-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #868e96;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 0.5rem;
+}
+
+@keyframes displayReveal {
+  0% { transform: scale(0.7) translateY(10px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* --- Navigation Buttons --- */
+.nav-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid #e9ecef;
+  background: #ffffff;
+  color: #495057;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.nav-btn:hover:not(:disabled) {
+  border-color: #d4940a;
+  color: #d4940a;
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(212, 148, 10, 0.15);
+}
+
+.nav-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.nav-btn:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+/* --- Finish Screen --- */
+.finish-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  animation: displayReveal 0.5s ease;
+}
+
+.finish-icon {
+  color: #2f9e44;
+  opacity: 0.85;
+  margin-bottom: 0.5rem;
+}
+
+.finish-title {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: #1a1d23;
+  letter-spacing: -0.01em;
+}
+
+.finish-sub {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #868e96;
+}
+
+/* --- Buttons --- */
+.actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.btn:focus-visible {
+  box-shadow: 0 0 0 3px rgba(212, 148, 10, 0.3);
+}
+
+.btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #d4940a;
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(212, 148, 10, 0.25);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #c18909;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(212, 148, 10, 0.3);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: #f1f3f5;
+  color: #495057;
+  border: 1.5px solid #dee2e6;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #e9ecef;
+  border-color: #ced4da;
+}
+
+.btn-secondary:active:not(:disabled) {
+  background: #e9ecef;
+}
+
+/* --- Status Bar --- */
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 340px;
+}
+
+.status-text {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
+.status-remaining {
+  font-weight: 700;
+  color: #d4940a;
+}
+
+.status-drawn {
+  font-weight: 500;
+  color: #868e96;
+}
+
+.progress-track {
+  flex: 1;
+  height: 6px;
+  background: #e9ecef;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #d4940a, #c18909);
+  border-radius: 3px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Finished Message --- */
+.finished-msg {
+  padding: 0.75rem 1.5rem;
+  background: #ebfbee;
+  border: 1.5px solid #b2f2bb;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: #2f9e44;
+  text-align: center;
+}
+
+/* --- Right Panel: Drawn Numbers Grid --- */
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 2rem;
+  background: #f8f9fb;
+  overflow: hidden;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+.panel-title {
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: #495057;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.panel-count {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #adb5bd;
+}
+
+.numbers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 0.625rem;
+  overflow-y: auto;
+  flex: 1;
+  align-content: start;
+  padding-right: 0.25rem;
+}
+
+.number-card {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  background: #ffffff;
+  border: 1.5px solid #e9ecef;
+  border-radius: 0.625rem;
+  transition: all 0.15s ease;
+}
+
+.card-in {
+  animation: cardIn 0.3s ease-out backwards;
+}
+
+.number-card.concluded {
+  background: #f8f9fa;
+  border-color: #e9ecef;
+  opacity: 0.45;
+}
+
+.number-card.concluded:hover {
+  border-color: #dee2e6;
+  background: #f8f9fa;
+  transform: none;
+  box-shadow: none;
+}
+
+.number-order {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #868e96;
+  min-width: 24px;
+}
+
+.number-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1a1d23;
+  flex: 1;
+}
+
+.number-card.concluded .number-value {
+  text-decoration: line-through;
+  color: #adb5bd;
+}
+
+/* --- Animations --- */
+@keyframes slotShake {
+  0%, 100% { transform: translateX(-2px) scale(0.98); }
+  50% { transform: translateX(2px) scale(1.02); }
+}
+
+@keyframes slotReveal {
+  0% { transform: scale(0.4); opacity: 0; }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* --- Empty State --- */
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: #ced4da;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  opacity: 0.4;
+}
+
+.empty-text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #adb5bd;
+}
+
+/* --- Footer --- */
+.app-footer {
   text-align: center;
   padding: 0.5rem 1rem;
-  z-index: 1;
   flex-shrink: 0;
-  background: var(--bg);
+  background: #ffffff;
+  border-top: 1px solid #e9ecef;
 }
 
 .app-footer p {
   margin: 0;
-  font-size: 0.625rem;
-  color: var(--text-secondary);
+  font-size: 0.6875rem;
+  color: #adb5bd;
   font-weight: 500;
 }
 
-@media (max-width: 600px) {
-  .app-main {
+@media (max-width: 900px) {
+  .app-body {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
-    gap: 1rem;
-    overflow-y: auto;
   }
-  
+
+  .left-panel {
+    border-right: none;
+    border-bottom: 1px solid #e9ecef;
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
   .right-panel {
     min-height: 200px;
+  }
+
+  .numbers-grid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
   }
 }

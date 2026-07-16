@@ -1,7 +1,6 @@
-import { app, BrowserWindow, ipcMain, session } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import os from 'node:os'
 import path from 'node:path'
-
 import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -12,9 +11,14 @@ export const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 export const MAIN_DIST = path.join(process.env.APP_ROOT, 'dist-electron')
 export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist')
 
-process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 'public') : RENDERER_DIST
+process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
+  ? path.join(process.env.APP_ROOT, 'public')
+  : RENDERER_DIST
 
-const iconPath = path.join(process.env.VITE_PUBLIC!, os.platform() === 'win32' ? 'icone.ico' : 'icone.png')
+const iconPath = path.join(
+  process.env.VITE_PUBLIC!,
+  os.platform() === 'win32' ? 'icone.ico' : 'icone.png'
+)
 
 let win: BrowserWindow | null
 
@@ -25,18 +29,20 @@ function createWindow() {
   }
 
   win = new BrowserWindow({
-    width: 670,
-    height: 500,
-    minWidth: 670,
-    minHeight: 500,
+    width: 1920,
+    height: 1080,
+    minWidth: 900,
+    minHeight: 600,
     resizable: true,
     frame: false,
     icon: iconPath,
+    backgroundColor: '#f8f9fb',
+    maximizable: true,
+    fullscreenable: true,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.mjs'),
+      preload: path.join(__dirname, 'preload.cjs'),
       contextIsolation: true,
-      sandbox: true,
-      devTools: false
+      sandbox: false,
     },
   })
 
@@ -45,6 +51,9 @@ function createWindow() {
   } else {
     win.loadFile(path.join(RENDERER_DIST, 'index.html'))
   }
+
+  win.maximize()
+  win.webContents.openDevTools({ mode: 'detach' })
 
   const handleMaximizeChange = (isMaximized: boolean) => {
     win?.webContents.send('maximize-change', isMaximized)
@@ -88,15 +97,5 @@ app.on('activate', () => {
 })
 
 app.whenReady().then(() => {
-  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-    callback({
-      responseHeaders: {
-        ...details.responseHeaders,
-        'Content-Security-Policy': [
-          "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:; media-src 'self' file:"
-        ]
-      }
-    })
-  })
   createWindow()
 })
