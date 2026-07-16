@@ -3,7 +3,7 @@
 
 Aplicativo desktop para sorteio de números (UNIVASF).
 
-![Versão](https://img.shields.io/badge/version-1.0.0-blue)
+![Versão](https://img.shields.io/badge/version-0.0.1-blue)
 ![Electron](https://img.shields.io/badge/Electron-30.0.1-47848F?style=flat-square&logo=electron)
 ![React](https://img.shields.io/badge/React-18.2-61DAFB?style=flat-square&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.2-3178C6?style=flat-square&logo=typescript)
