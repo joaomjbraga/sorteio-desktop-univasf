@@ -15,7 +15,6 @@
   user-select: none;
   flex-shrink: 0;
   background: #ffffff;
-  border-bottom: 1px solid #e9ecef;
   position: relative;
   z-index: 50;
 }
@@ -82,7 +81,6 @@
   gap: 2rem;
   padding: 2rem;
   background: #ffffff;
-  border-right: 1px solid #e9ecef;
 }
 
 /* --- Top Controls Row --- */
@@ -521,7 +519,6 @@
   padding: 0.5rem 1rem;
   flex-shrink: 0;
   background: #ffffff;
-  border-top: 1px solid #e9ecef;
 }
 
 .app-footer p {
@@ -660,8 +657,6 @@
   }
 
   .left-panel {
-    border-right: none;
-    border-bottom: 1px solid #e9ecef;
     padding: 1.5rem;
     gap: 1.5rem;
   }
