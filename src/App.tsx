@@ -280,10 +280,6 @@ function App() {
         </div>
       </main>
 
-      <footer className="app-footer">
-        <p>UNIVASF — Universidade Federal do Vale do São Francisco</p>
-      </footer>
-
       <RangeModal
         open={isRangeOpen}
         onClose={() => setIsRangeOpen(false)}

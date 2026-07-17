@@ -104,7 +104,9 @@
   background: #ffffff;
   font-family: inherit;
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .range-input:focus {
@@ -141,7 +143,9 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
   overflow: hidden;
   flex-shrink: 0;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .slot-machine.is-spinning {
@@ -245,8 +249,14 @@
 }
 
 @keyframes displayReveal {
-  0% { transform: scale(0.7) translateY(10px); opacity: 0; }
-  100% { transform: scale(1) translateY(0); opacity: 1; }
+  0% {
+    transform: scale(0.7) translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
 }
 
 /* --- Navigation Buttons --- */
@@ -391,7 +401,7 @@
   display: flex;
   flex-direction: column;
   padding: 1.5rem 2rem;
-  background: #f8f9fb;
+  background: #fcfcfc;
   overflow: hidden;
 }
 
@@ -476,19 +486,38 @@
 
 /* --- Animations --- */
 @keyframes slotShake {
-  0%, 100% { transform: translateX(-2px) scale(0.98); }
-  50% { transform: translateX(2px) scale(1.02); }
+  0%,
+  100% {
+    transform: translateX(-2px) scale(0.98);
+  }
+  50% {
+    transform: translateX(2px) scale(1.02);
+  }
 }
 
 @keyframes slotReveal {
-  0% { transform: scale(0.4); opacity: 0; }
-  60% { transform: scale(1.1); }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes cardIn {
-  from { opacity: 0; transform: translateY(8px) scale(0.95); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* --- Empty State --- */
@@ -511,21 +540,6 @@
   font-size: 0.875rem;
   font-weight: 600;
   color: #adb5bd;
-}
-
-/* --- Footer --- */
-.app-footer {
-  text-align: center;
-  padding: 0.5rem 1rem;
-  flex-shrink: 0;
-  background: #ffffff;
-}
-
-.app-footer p {
-  margin: 0;
-  font-size: 0.6875rem;
-  color: #adb5bd;
-  font-weight: 500;
 }
 
 /* --- Range Trigger Button --- */
@@ -641,13 +655,23 @@
 }
 
 @keyframes modalFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes modalSlideIn {
-  from { transform: scale(0.9) translateY(10px); opacity: 0; }
-  to { transform: scale(1) translateY(0); opacity: 1; }
+  from {
+    transform: scale(0.9) translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
 }
 
 @media (max-width: 900px) {
